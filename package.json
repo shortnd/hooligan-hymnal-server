@@ -2,7 +2,7 @@
   "name": "hymnal-server",
   "version": "1.0.0",
   "description": "Serving those diss tracks like we're the Paul brothers",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
     "ejs": "^2.5.7",
