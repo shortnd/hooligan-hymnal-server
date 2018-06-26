@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
     "ejs": "^2.5.7",
     "expo-server-sdk": "^2.3.3",
     "express": "^4.16.2",
