@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
+var cors = require('cors'); 
 
 var songController = require('./controllers/songController');
 var playerController = require('./controllers/playerController');
@@ -11,6 +12,7 @@ var port = process.env.PORT || 3000;
 let MONGO_URI = process.env.MONGO_URI;
 
 app.use('/assets', express.static(__dirname + '/public'));
+app.use(cors());
 
 app.set('view engine', 'ejs');
 
