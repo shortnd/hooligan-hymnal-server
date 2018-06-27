@@ -20,7 +20,7 @@ module.exports = app => {
   // returns most recent notification
   app.get('/api/notifications/last', (req, res) => {
     Notifications.find()
-      .sort({ update_time: -1 })
+      .sort({ send_time: -1 })
       .limit(1)
       .then(notifications => {
         if (notifications.length) {
@@ -38,7 +38,8 @@ module.exports = app => {
         res.status(501).send({ error });
       }
       res.send(notifications);
-    });
+    })
+    .sort({ update_time: -1 });
   });
 
   // returns single notification by _id
