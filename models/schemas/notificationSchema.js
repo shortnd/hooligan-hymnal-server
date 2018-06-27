@@ -10,4 +10,9 @@ module.exports = new mongoose.Schema({
   message: String,
   push: Boolean,
   song: songSchema
+},{
+  timestamps: {
+    createdAt: 'create_time',
+    updatedAt: 'update_time'
+  }
 });
