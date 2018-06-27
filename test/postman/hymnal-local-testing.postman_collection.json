@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "de8f3265-8c2c-4b6d-b6e9-2d4f13a19cbe",
+		"name": "hymnal-local-testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "notification POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": \"this is a test title\",\n\t\"push\": true,\n\t\"song\": {\n\t\t\"title\": \"this was sent with push = true\",\n\t\t\"lyrics\": \"these are lyrics\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/notification",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"notification"
+					]
+				},
+				"description": "sends a test notification from the server with minimal information"
+			},
+			"response": []
+		},
+		{
+			"name": "song POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "\"title0\"",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "lyrics",
+							"value": "\"lyrics0\"",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/song",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"song"
+					]
+				},
+				"description": "creates a new song in the database with minimal information"
+			},
+			"response": []
+		},
+		{
+			"name": "notifications GET",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "thisisatoken2",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/notifications",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"notifications"
+					]
+				},
+				"description": "returns all notifications from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "songs GET",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "\"title0\"",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "lyrics",
+							"value": "\"lyrics0\"",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/songs",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"songs"
+					]
+				},
+				"description": "returns all songs in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "pushtoken POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"pushToken\": \"token444\"\n}"
+				},
+				"url": {
+					"raw": "localhost:3000/api/pushToken",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"pushToken"
+					]
+				},
+				"description": "pushes a sample push token to the database"
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "0d574c8f-143e-f41a-46fa-879234a0092b",
+		"name": "hooligan-hymnal-prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "pushtoken POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pushToken\": \"token444\"\n}"
+				},
+				"url": {
+					"raw": "https://chattahooligan-hymnal.herokuapp.com/api/pushToken",
+					"protocol": "https",
+					"host": [
+						"chattahooligan-hymnal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"pushToken"
+					]
+				},
+				"description": "pushes a sample push token to the database"
+			},
+			"response": []
+		},
+		{
+			"name": "notifications GET",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "thisisatoken2",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://chattahooligan-hymnal.herokuapp.com/api/notifications",
+					"protocol": "https",
+					"host": [
+						"chattahooligan-hymnal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"notifications"
+					]
+				},
+				"description": "returns all notifications from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "songs GET",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "\"title0\"",
+							"type": "text"
+						},
+						{
+							"key": "lyrics",
+							"value": "\"lyrics0\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://chattahooligan-hymnal.herokuapp.com/api/songs",
+					"protocol": "https",
+					"host": [
+						"chattahooligan-hymnal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"songs"
+					]
+				},
+				"description": "returns all songs in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "song POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "\"title0\"",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "lyrics",
+							"value": "\"lyrics0\"",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://chattahooligan-hymnal.herokuapp.com/api/song",
+					"protocol": "https",
+					"host": [
+						"chattahooligan-hymnal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"song"
+					]
+				},
+				"description": "creates a new song in the database with minimal information"
+			},
+			"response": []
+		},
+		{
+			"name": "notification POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"message\": \"this is a test title\",\n\t\"push\": true,\n\t\"song\": {\n\t\t\"title\": \"this was sent with push = true\",\n\t\t\"lyrics\": \"these are lyrics\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://chattahooligan-hymnal.herokuapp.com/api/notification",
+					"protocol": "https",
+					"host": [
+						"chattahooligan-hymnal",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"notification"
+					]
+				},
+				"description": "sends a test notification from the server with minimal information"
+			},
+			"response": []
+		}
+	]
+}
