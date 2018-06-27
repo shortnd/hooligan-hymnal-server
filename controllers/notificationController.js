@@ -20,7 +20,7 @@ module.exports = app => {
   // returns most recent notification
   app.get('/api/notifications/last', (req, res) => {
     Notifications.find()
-      .sort({ send_time: -1 })
+      .sort({ update_time: -1 })
       .limit(1)
       .then(notifications => {
         if (notifications.length) {
