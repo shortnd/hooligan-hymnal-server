@@ -22,7 +22,7 @@ module.exports = app => {
   // returns single player by _id
   app.get('/api/player/:id', (req, res) => {
     Players.findById(req.params.id, (error, player) => {
-      res.send(song);
+      res.send(player);
     });
   });
 

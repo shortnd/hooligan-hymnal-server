@@ -8,6 +8,7 @@ const songController = require('./controllers/songController');
 const playerController = require('./controllers/playerController');
 const notificationController = require('./controllers/notificationController');
 const pushTokenController = require('./controllers/pushTokenController');
+const matchesController = require('./controllers/matchesController');
 
 const port = process.env.PORT || 3000;
 let MONGO_URI = process.env.MONGO_URI;
@@ -47,6 +48,7 @@ songController(app);
 playerController(app);
 notificationController(app);
 pushTokenController(app);
+matchesController(app);
 
 app.listen(port, () => {
     console.log('app listening on ' + port);
