@@ -20,26 +20,26 @@ module.exports = app => {
   });
 
   // creates songbook
-  app.post("/api/songbook", (req, res) => {
-    var newSongbook = Songbook(req.body);
-    newSongbook.save((error, songbook) => {
-      error ? res.status(501).send({error}) : res.send(songbook);
-    });
-  });
-
-  // updates songbook
-  app.put("/api/songbook/:id", (req, res) => {
-    Songbook.findByIdAndUpdate(req.params.id, req.body, (error, songbook) => {
-      error ? res.status(501).send({error}) : res.send(songbook);
-    });
-  });
-
-  // deletes songbook
-  app.delete("/api/songbook/:id", (req, res) => {
-    Songbook.findByIdAndRemove(req.params.id, error => {
-      error
-        ? res.status(501).send({error})
-        : res.send({message: "Deleted" + req.params.id});
-    });
-  });
+  //app.post("/api/songbook", (req, res) => {
+  //  var newSongbook = Songbook(req.body);
+  //  newSongbook.save((error, songbook) => {
+  //    error ? res.status(501).send({error}) : res.send(songbook);
+  //  });
+  //});
+//
+  //// updates songbook
+  //app.put("/api/songbook/:id", (req, res) => {
+  //  Songbook.findByIdAndUpdate(req.params.id, req.body, (error, songbook) => {
+  //    error ? res.status(501).send({error}) : res.send(songbook);
+  //  });
+  //});
+//
+  //// deletes songbook
+  //app.delete("/api/songbook/:id", (req, res) => {
+  //  Songbook.findByIdAndRemove(req.params.id, error => {
+  //    error
+  //      ? res.status(501).send({error})
+  //      : res.send({message: "Deleted" + req.params.id});
+  //  });
+  //});
 };

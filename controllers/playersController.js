@@ -27,26 +27,26 @@ module.exports = app => {
   });
 
   // creates player
-  app.post('/api/players', (req, res) => {
-    var newPlayer = Players(req.body);
-    newPlayer.save((error, player) => {
-      error ? res.status(501).send({ error }) : res.send(player);
-    });
-  });
-
-  // updates player
-  app.put('/api/players/:id', (req, res) => {
-    Players.findByIdAndUpdate(req.params.id, req.body, (error, player) => {
-      error ? res.status(501).send({ error }) : res.send(player);
-    });
-  });
-
-  //deletes player
-  app.delete('/api/players/:id', (req, res) => {
-    Players.findByIdAndRemove(req.params.id, error => {
-      error
-        ? res.status(501).send({ error })
-        : res.send({ message: 'Deleted' + req.params.id });
-    });
-  });
+  //app.post('/api/players', (req, res) => {
+  //  var newPlayer = Players(req.body);
+  //  newPlayer.save((error, player) => {
+  //    error ? res.status(501).send({ error }) : res.send(player);
+  //  });
+  //});
+//
+  //// updates player
+  //app.put('/api/players/:id', (req, res) => {
+  //  Players.findByIdAndUpdate(req.params.id, req.body, (error, player) => {
+  //    error ? res.status(501).send({ error }) : res.send(player);
+  //  });
+  //});
+//
+  ////deletes player
+  //app.delete('/api/players/:id', (req, res) => {
+  //  Players.findByIdAndRemove(req.params.id, error => {
+  //    error
+  //      ? res.status(501).send({ error })
+  //      : res.send({ message: 'Deleted' + req.params.id });
+  //  });
+  //});
 };

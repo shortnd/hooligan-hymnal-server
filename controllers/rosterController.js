@@ -20,26 +20,26 @@ module.exports = app => {
   });
 
   // creates roster
-  app.post("/api/roster", (req, res) => {
-    var newRoster = Roster(req.body);
-    newRoster.save((error, roster) => {
-      error ? res.status(501).send({error}) : res.send(roster);
-    });
-  });
-
-  // updates roster
-  app.put("/api/roster/:id", (req, res) => {
-    Roster.findByIdAndUpdate(req.params.id, req.body, (error, roster) => {
-      error ? res.status(501).send({error}) : res.send(roster);
-    });
-  });
-
-  // deletes roster
-  app.delete("/api/roster/:id", (req, res) => {
-    Roster.findByIdAndRemove(req.params.id, error => {
-      error
-        ? res.status(501).send({error})
-        : res.send({message: "Deleted" + req.params.id});
-    });
-  });
+  //app.post("/api/roster", (req, res) => {
+  //  var newRoster = Roster(req.body);
+  //  newRoster.save((error, roster) => {
+  //    error ? res.status(501).send({error}) : res.send(roster);
+  //  });
+  //});
+//
+  //// updates roster
+  //app.put("/api/roster/:id", (req, res) => {
+  //  Roster.findByIdAndUpdate(req.params.id, req.body, (error, roster) => {
+  //    error ? res.status(501).send({error}) : res.send(roster);
+  //  });
+  //});
+//
+  //// deletes roster
+  //app.delete("/api/roster/:id", (req, res) => {
+  //  Roster.findByIdAndRemove(req.params.id, error => {
+  //    error
+  //      ? res.status(501).send({error})
+  //      : res.send({message: "Deleted" + req.params.id});
+  //  });
+  //});
 };

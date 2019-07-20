@@ -12,7 +12,7 @@ module.exports = app => {
 
   // Return something for bare URL just so we can be sure the server is running
   app.get('/', (req, res) => {
-    res.send('Chattahooligans API is running');
+    res.send('Come and get it');
   });
 
   // returns all songs
@@ -33,26 +33,26 @@ module.exports = app => {
   });
 
   // creates song
-  app.post('/api/song', (req, res) => {
-    var newSong = Songs(req.body);
-    newSong.save((error, song) => {
-      error ? res.status(501).send({ error }) : res.send(song);
-    });
-  });
-
-  // updates song
-  app.put('/api/song/:id', (req, res) => {
-    Songs.findByIdAndUpdate(req.params.id, req.body, (error, song) => {
-      error ? res.status(501).send({ error }) : res.send(song);
-    });
-  });
-
-  // deletes song
-  app.delete('/api/song/:id', (req, res) => {
-    Songs.findByIdAndRemove(req.params.id, error => {
-      error
-        ? res.status(501).send({ error })
-        : res.send({ message: 'Deleted' + req.params.id });
-    });
-  });
+  //app.post('/api/song', (req, res) => {
+  //  var newSong = Songs(req.body);
+  //  newSong.save((error, song) => {
+  //    error ? res.status(501).send({ error }) : res.send(song);
+  //  });
+  //});
+//
+  //// updates song
+  //app.put('/api/song/:id', (req, res) => {
+  //  Songs.findByIdAndUpdate(req.params.id, req.body, (error, song) => {
+  //    error ? res.status(501).send({ error }) : res.send(song);
+  //  });
+  //});
+//
+  //// deletes song
+  //app.delete('/api/song/:id', (req, res) => {
+  //  Songs.findByIdAndRemove(req.params.id, error => {
+  //    error
+  //      ? res.status(501).send({ error })
+  //      : res.send({ message: 'Deleted' + req.params.id });
+  //  });
+  //});
 };
