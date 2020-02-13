@@ -17,7 +17,6 @@ module.exports = new mongoose.Schema(
       url: String,
       caption: String,
       credit: String,
-      default: Boolean,
     }],
     attachments: [{ attachmentType: String, relatedId: String, data: {} }],
     active: Boolean,

@@ -131,8 +131,8 @@ async function changeFeedImagesUrlToUri() {
       item.images.forEach((img) => {
         if (!img.uri) {
           img.uri = img.url;
+          img.url = undefined;
         }
-        img.url = img.uri;
       });
     }
     item.save();
