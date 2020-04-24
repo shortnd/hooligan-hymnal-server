@@ -1,0 +1,36 @@
+include ./_baseInput
+include ./_csrfInput
+
+mixin songForm(song = {}, players = {})
+  form(method="POST")
+    +csrfInput()
+    .flex.flex-col.mb-3
+      +baseInput("text", "Title", "title", song.title, "Title", true)
+    .flex.flex-col.mb-3
+      label(for="lyrics" class="flex-1 font-semibold") Lyrics
+      textarea(name="lyrics" id="lyrics" placeholder="Lyrics" class="border flex-auto rounded p-2 shadow" rows="10") #{song.lyrics}
+    .flex.flex-col.mb-3
+      +baseInput("text", "Instructions", "instructions", song.instructions, "Instructions")
+    .flex.flex-col.mb-3
+      +baseInput("text", "Category", "category", song.category, "Category")
+    .flex.flex-col.mb-3
+      +baseInput("text", "Reference Title", "referenceTitle", song.referenceTitle, "Title")
+    .flex.flex-col.mb-3
+      +baseInput("text", "Reference Link", "referenceLink", song.referenceLink, "Link")
+    .flex.flex-col.mb-3
+      +baseInput("text", "Sheet Music Link", "sheetMusicLink", song.sheetMusicLink, "Sheet Music Link")
+    .flex.flex-col.mb-3
+      label(for="playerId") Select A Player
+      select#playerId(name="playerId" class="h-10 bg-white shadow border rounded") Select A Player
+        option(value="") No Player
+        each player in players
+          if (player._id == song.playerId)
+            option(value=`${player._id}` selected) #{player.name}
+          else
+            option(value=`${player._id}`) #{player.name}
+    .flex.flex-col.mb-3
+      +baseInput("text", "Legend", "legend", song.legend, "Legend")
+    .flex.flex-col.mb-3
+      +baseInput("text", "Capo Signal", "capoSignal", song.capoSignal, "Capo Signal")
+    .mb-3
+      button(type="submit" class="btn bg-blue-700 text-white") Save Song

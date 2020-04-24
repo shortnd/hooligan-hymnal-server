@@ -1,0 +1,8 @@
+extends ../layout
+
+include ../mixins/_playerForm
+
+block content
+  .mx-auto.container
+    h2 #{title}
+    +playerForm(player, true)

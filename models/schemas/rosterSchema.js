@@ -3,14 +3,31 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 module.exports = new mongoose.Schema(
   {
-    rosterTitle: String,
+    rosterTitle: {
+      type: String,
+      required: "Title is required"
+    },
     season: String,
-    squads: [
+    defaultThumbnail: String,
+    defaultImage: String,
+    showPlayerSongs: Boolean,
+    /*
+    players: [
       {
-        squadTitle: String,
-        players: [{ _id: String, hint: String }]
+        type: ObjectId,
+        ref: "players"
       }
-    ]
+    ],
+    */
+   players: [{ _id: String, hint: String }],
+    active: {
+      type: Boolean,
+      default: true
+    },
+    default: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: {

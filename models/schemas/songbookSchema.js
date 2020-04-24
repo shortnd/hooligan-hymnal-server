@@ -1,9 +1,14 @@
-var mongoose = require("mongoose");
-var ObjectId = mongoose.Schema.Types.ObjectId;
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+const { ObjectId } = mongoose.Schema.Types;
 
 module.exports = new mongoose.Schema(
   {
-    songbook_title: String,
+    songbook_title: {
+      type: String,
+      required: 'Title is required',
+    },
     organization: String,
     description: String,
     front_cover: String,
@@ -12,14 +17,14 @@ module.exports = new mongoose.Schema(
     chapters: [
       {
         chapter_title: String,
-        songs: [{ _id: String, featured: Boolean, hint: String }]
-      }
-    ]
+        songs: [{ _id: String, featured: Boolean, hint: String }],
+      },
+    ],
   },
   {
     timestamps: {
-      createdAt: "create_time",
-      updatedAt: "update_time"
-    }
-  }
+      createdAt: 'create_time',
+      updatedAt: 'update_time',
+    },
+  },
 );
