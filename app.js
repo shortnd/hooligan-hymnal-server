@@ -178,10 +178,28 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  req.login = promisify(req.login, req);
-  next();
-});
+// app.use((req, res, next) => {
+//   req.login = promisify(req.login, req);
+//   next();
+// });
+
+
+const { ApolloServer, gql } = require('apollo-server-express');
+const responseCachePlugin = require('apollo-server-plugin-response-cache');
+const { typeDefs, resolvers } = require('./schema');
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: (req, res, next) => {
+    return { req, res, next};
+    // console.log(req.user)
+  },
+  plugins: [responseCachePlugin()],
+})
+
+server.applyMiddleware({ app });
+
 const api = require('./routes/api');
 
 app.use('/api', api);
