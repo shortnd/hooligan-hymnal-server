@@ -55,14 +55,14 @@ const typeDefs = gql`
     type Player @cacheControl(maxAge: 900) {
         id: ID!
         name: String!
-        flag: String!
-        squadNumber: String!
-        position: String!
-        team: String!
+        flag: String
+        squadNumber: String
+        position: String
+        team: String
         thumbnail: String
-        twitter: String!
-        instagram: String!
-        images: [String!]!
+        twitter: String
+        instagram: String
+        images: [String]
         # TODO: Add bio's
         # bio:
     }
@@ -73,146 +73,146 @@ const typeDefs = gql`
 
     type Roster @cacheControl(maxAge: 900) {
         id: ID!
-        rosterTitle: String!
-        season: String!
+        rosterTitle: String
+        season: String
         defaultThumbnail: String
         defaultImage: String
-        players: [RosterPlayer]!
-        active: Boolean!
-        default: Boolean!
+        players: [RosterPlayer]
+        active: Boolean
+        default: Boolean
     }
 
     type RosterPlayer {
-        _id: ID
-        hint: String!
+        _id: ID!
+        hint: String
     }
 
     type Foe @cacheControl(maxAge: 900) {
         id: ID!
-        opponent: String!
-        logo: String!
-        backgroundColor: String!
-        accentColor: String!
-        textColor: String!
-        season: String!
-        active: Boolean!
-        players: [FoePlayer]!
+        opponent: String
+        logo: String
+        backgroundColor: String
+        accentColor: String
+        textColor: String
+        season: String
+        active: Boolean
+        players: [FoePlayer]
     }
 
     type FoePlayer {
-        name: String!
-        squadNumber: String!
-        position: String!
+        name: String
+        squadNumber: String
+        position: String
     }
 
     type Songbook @cacheControl(maxAge: 900) {
         id: ID!
-        songbook_title: String!
-        organization: String!
-        description: String!
-        front_cover: String!
-        back_cover: String!
-        chapters: [SongbookChapter]!
+        songbook_title: String
+        organization: String
+        description: String
+        front_cover: String
+        back_cover: String
+        chapters: [SongbookChapter]
     }
 
     type SongbookChapter {
-        chapter_title: String!
-        songs: [SongbookChapterSong]!
+        chapter_title: String
+        songs: [SongbookChapterSong]
     }
 
     type SongbookChapterSong {
         _id: String
-        featured: Boolean!
-        hint: String!
+        featured: Boolean
+        hint: String
     }
 
     type Song @cacheControl(maxAge: 900) {
         id: ID!
-        title: String!
-        category: String!
-        instructions: String!
-        lyrics: String!
-        referenceTitle: String!
-        referenceLink: String!
-        sheetMusicLik: String!
-        playerId: String!
-        legend: String!
-        capoSignal: String!
+        title: String
+        category: String
+        instructions: String
+        lyrics: String
+        referenceTitle: String
+        referenceLink: String
+        sheetMusicLik: String
+        playerId: String
+        legend: String
+        capoSignal: String
     }
 
     type FeedItem @cacheControl(maxAge: 900) {
         id: ID!
-        sender: Sender!
-        publishedAt: String!
-        push: Boolean!
-        local: String!
-        text: String!
-        images: [FeedItemImage]!
-        attachments: [FeedItemAttachment]!
-        active: String!
-        channel: String!
+        sender: Sender
+        publishedAt: String
+        push: Boolean
+        local: String
+        text: String
+        images: [FeedItemImage]
+        attachments: [FeedItemAttachment]
+        active: String
+        channel: String
     }
 
     type FeedItemImage {
-        uri: String!
-        thumbnailUri: String!
-        metadata: FeedItemMetadata!
+        uri: String
+        thumbnailUri: String
+        metadata: FeedItemMetadata
     }
 
     type FeedItemMetadata {
-        caption: String!
-        credit: String!
+        caption: String
+        credit: String
     }
 
     type FeedItemAttachment {
-        attachmentType: String!
-        relatedId: String!
+        attachmentType: String
+        relatedId: String
     }
 
     type Sender {
-        user: String!
-        pushToken: String!
+        user: User
+        pushToken: String
     }
 
     type Channel @cacheControl(maxAge: 900) {
         id: ID!
-        name: String!
-        defaultLocale: String!
-        description: String!
-        avatarUrl: String!
-        headerUrl: String!
-        follow: Boolean!
-        active: Boolean!
-        users: [ChannelUserType]!
+        name: String
+        defaultLocale: String
+        description: String
+        avatarUrl: String
+        headerUrl: String
+        follow: Boolean
+        active: Boolean
+        users: [ChannelUserType]
     }
 
     type ChannelUserType {
         _id: ID!
-        canCreate: Boolean!
-        canEdit: Boolean!
-        canDelete: Boolean!
-        canPush: Boolean!
+        canCreate: Boolean
+        canEdit: Boolean
+        canDelete: Boolean
+        canPush: Boolean
     }
 
     type User @cacheControl(maxAge: 900) {
         id: ID!
-        email: String!
-        name: String!
-        familyName: String!
-        displayName: String!
-        pushNotificationsAllowed: Boolean!
-        rosterAllowed: Boolean!
-        songbookAllowed: Boolean!
-        foesAllowed: Boolean!
-        feedAllowed: Boolean!
-        usesAllowed: Boolean!
-        lastLogin: String!
-        fullname: String!
+        email: String
+        name: String
+        familyName: String
+        displayName: String
+        pushNotificationsAllowed: Boolean
+        rosterAllowed: Boolean
+        songbookAllowed: Boolean
+        foesAllowed: Boolean
+        feedAllowed: Boolean
+        usesAllowed: Boolean
+        lastLogin: String
+        fullname: String
     }
 
     type UserLoginType {
         token: String!
-        user: User
+        user: User!
     }
 `;
 
@@ -263,7 +263,8 @@ const resolvers = {
             return await song.findById(id);
         },
         feed: async () => {
-            return await feedItem.find({ active: true });
+            let feedItems = await feedItem.find({ active: true })
+            return feedItems;
         },
         feedAll: async () => {
             return await feedItem.find({});
