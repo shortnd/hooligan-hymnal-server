@@ -30,7 +30,6 @@ env.config();
 const PORT = process.env.PORT || 3000;
 const { MONGO_URI } = process.env;
 const SENTRY_DNS = process.env.SENTRY_DNS
-console.log(SENTRY_DNS);
 
 if (SENTRY_DNS) {
   Sentry.init({ dsn: SENTRY_DNS });

@@ -5,7 +5,7 @@ const Player = mongoose.model('players');
 const {
   removeFromCloudinary,
 } = require('../handlers/cloudinaryDelete');
-const { upload } = require('../handlers/imageUploader');
+const { upload, thumbnail_upload, images_upload } = require('../handlers/imageUploader');
 
 exports.index = async (req, res) => {
   const page = req.query.page || 1;
@@ -94,10 +94,38 @@ exports.create = (req, res) => {
 };
 
 exports.store = async (req, res) => {
-  const player = new Player(req.body);
-  await player.save();
-  req.flash('success', `${player.name} was successfully created!`);
-  res.redirect('/players');
+  let player = Player(req.body);
+  if (req.files) {
+    if (req.files.thumbnail && req.files.thumbnail.size) {
+      const thumbnail = await thumbnail_upload(req.files.thumbnail, {
+        transformation: {
+          width: 200,
+          height: 200,
+          crop: 'thumb',
+          gravity: 'face',
+        },
+        folder: `players_thumbnails`,
+        public_id: `${player._id}_thumbnail`,
+        format: 'jpg',
+      });
+      player.thumbnail = thumbnail.url;
+    }
+    if (req.files.images) {
+      const images = await images_upload(req, {
+        folder: `players/${player._id}`,
+        format: 'jpg',
+      });
+      // for (const image in images) {
+      //   console.log(image.url);
+      // }
+      return res.json(images);
+    }
+  }
+  // return res.json({ body: req.body, files: req.files });
+  // const player = new Player(req.body);
+  // await player.save();
+  // req.flash('success', `${player.name} was successfully created!`);
+  // res.redirect('/players');
 };
 
 exports.show = async (req, res) => {

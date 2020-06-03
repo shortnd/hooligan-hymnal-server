@@ -4,7 +4,7 @@ include ./_csrfInput
 mixin playerForm(player = {}, edit = false)
   if player.id
     #player-id(class="hidden") #{player.id}
-  form(method="POST")
+  form(method="POST" enctype="multipart/form-data")
     +csrfInput()
     .flex.flex-col.mb-3
       +baseInput("text", "Name", "name", player.name, "Name", true)
@@ -34,42 +34,44 @@ mixin playerForm(player = {}, edit = false)
               label(for=lang class="flex-1 font-semibold capitalize") #{lang}
               textarea(name=`bio[${lang}]` id=lang class="border flex-auto rounded p-2 shadow") #{bios[lang]}
     .flex.flex-col.mb-3#thumbnail
-      #thumbnail-template
+      #thumbnail-template.hidden
         div(class="relative inline-block")
-          img(data-dz-thumbnail class="rounded-full mx-auto" style="height:50px;width:50px")
-          p(class="" data-dz-name)
-          div(class="dz-error-mark cursor-pointer absolute top-0 right-0" data-dz-remove)
+          img(class="rounded-full mx-auto" style="height:50px;width:50px")
+          p(class="")
+          div(class="cursor-pointer absolute top-0 right-0 thumbnail-close")
             span &times;
         div(class="dz-error-message")
           span(data-dz-errormessage)
       #thumbnail-upload-section(class="border rounded-lg bg-gray-200 h-32 w-full flex justify-center items-center cursor-pointer relative z-10")
-        h2(class="pointer-events-none -z-1") Upload thumbnail here
+        h2(class="pointer-events-none -z-1 block") Upload thumbnail here
+        input(type="file" accept="image/*" name="thumbnail" class="ml-2")
       #thumbnail-previews
-      div(class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0")
-          div(class="h-2 bg-gray-700 progress-bar" style="width:0%;" data-dz-uploadprogress)
-      .actions
-        button(class="rounded bg-green-700 text-white px-3 py-2 upload" type="button") Upload
-        if !edit
-          button(class="rounded bg-red-700 text-white px-3 py-2 cancel" type="button") Clear
+      //- div(class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0")
+      //-     div(class="h-2 bg-gray-700 progress-bar" style="width:0%;" data-dz-uploadprogress)
+      //- .actions
+      //-   button(class="rounded bg-green-700 text-white px-3 py-2 upload" type="button") Upload
+      //-   if !edit
+      //-     button(class="rounded bg-red-700 text-white px-3 py-2 cancel" type="button") Clear
       #thumbnail-target.hidden
     .flex.flex-col.mb-3#images
-      #images-template
-        div(class="relative inline-block")
+      #images-template.hidden
+        div(class="relative inline-block mr-2")
           img(data-dz-thumbnail class="rounded-full mx-auto" style="width:120px;height:120px")
           p(class="" data-dz-name)
-          div(class="dz-error-mark cursor-pointer absolute top-0 right-0" data-dz-remove)
+          div(class="dz-error-mark cursor-pointer absolute top-0 right-0 image-clear" data-dz-remove)
             span &times;
         div(class="dz-error-message")
           span(data-dz-errormessage)
       #images-upload-section(class="border rounded-lg bg-gray-200 h-32 w-full flex justify-center items-center cursor-pointer relative z-10")
         h2(class="pointer-events-none -z-1") Image(s) here
-      #images-previews
-      div(class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0")
-        div(class="h-2 bg-gray-700 progress-bar" style="width:0%;" data-dz-uploadprogress)
-      .actions
-        button(class="rounded bg-green-700 text-white px-3 py-2 upload" type="button") Upload
-        if !edit
-          button(class="rounded bg-red-700 text-white px-3 py-2 cancel" type="button") Clear
+        input(type="file" accept="image/*" name="images" multiple class="mr-2")
+      #images-previews.flex
+      //- div(class="progress active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0")
+      //-   div(class="h-2 bg-gray-700 progress-bar" style="width:0%;" data-dz-uploadprogress)
+      //- .actions
+      //-   button(class="rounded bg-green-700 text-white px-3 py-2 upload" type="button") Upload
+      //-   if !edit
+      //-     button(class="rounded bg-red-700 text-white px-3 py-2 cancel" type="button") Clear
       #images-target.hidden
     .flex.flex-col.mb-3
       +baseInput("text", "Twitter", "twitter", player.twitter, "twitter")
@@ -77,3 +79,14 @@ mixin playerForm(player = {}, edit = false)
       +baseInput("text", "Instagram", "instagram", player.instagram, "instagram")
     .mb-3
       button(type="submit" class="py-3 px-2 rounded bg-blue-700 text-white") Save Player
+
+block scripts
+  script.
+    //- (function() {
+    //-   var thumbnailInput = document.createElement('input');
+    //-   thumbnailInput.setAttribute('name', 'thumbnail');
+    //-   thumbnailInput.setAttribute('type', 'file');
+    //-   thumbnailInput.setAttribute('accept', 'images/*');
+    //-   //- thumbnailInput.setAttribute('class', 'hidden');
+    //-   document.getElementById('thumbnail').append(thumbnailInput)
+    //- })()

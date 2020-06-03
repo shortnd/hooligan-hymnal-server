@@ -31,6 +31,8 @@ function dropzone(url, templateId, uploadSection, previewsContainer, target, tex
     previewTemplate,
     autoQueue: false,
     previewsContainer,
+    acceptedFiles: "image/*",
+    // clickable: false,
     withCredentials: true,
     init() {
       previewNode.remove();
@@ -166,21 +168,39 @@ function dropzone(url, templateId, uploadSection, previewsContainer, target, tex
 
   let submitButton;
 
-  myDropzone.on('addedfile', (file, res) => {
-    const form = document.querySelector('main form');
-    submitButton = form.querySelector("button[type='submit']");
-    submitButton.setAttribute('disabled', 'disabled');
-    submitButton.classList.add('cursor-disabled');
-    submitButton.classList.add('opacity-75');
-    if (!document.getElementById(`small-${slugify(text.toLowerCase())}`)) {
-      const smallAlert = document.createElement('small');
-      smallAlert.innerText = `Please upload ${text} to submit form`;
-      smallAlert.id = `small-${slugify(text.toLowerCase())}`;
-      smallAlert.classList.add('block');
-      smallAlert.classList.add('text-red-700');
-      submitButton.parentNode.appendChild(smallAlert);
-    }
+  myDropzone.on('drop', function(e) {
+    var fileInput = document.querySelector('input[name="thumbnail"]');
+    fileInput.files = e.dataTransfer.files;
   });
+
+  myDropzone.on('addedfile', (e) => {
+    // var fileInput = document.createElement('input');
+    // fileInput.setAttribute('type', 'file');
+    // debugger;
+
+    // const form = document.querySelector('main form');
+    // submitButton = form.querySelector("button[type='submit']");
+    // submitButton.setAttribute('disabled', 'disabled');
+    // submitButton.classList.add('cursor-disabled');
+    // submitButton.classList.add('opacity-75');
+    // if (!document.getElementById(`small-${slugify(text.toLowerCase())}`)) {
+    //   const smallAlert = document.createElement('small');
+    //   smallAlert.innerText = `Please upload ${text} to submit form`;
+    //   smallAlert.id = `small-${slugify(text.toLowerCase())}`;
+    //   smallAlert.classList.add('block');
+    //   smallAlert.classList.add('text-red-700');
+    //   submitButton.parentNode.appendChild(smallAlert);
+    // }
+  });
+  myDropzone.on('removedfile', (file) => {
+    var fileInput = document.querySelector('input[name="thumbnail"]');
+    debugger;
+  });
+
+  // myDropzone.addEventListener('click', function(e) {
+  //   e.preventDefault();
+  //   e.preventPropogation();
+  // });
 
   myDropzone.on('success', (_, res) => {
     const tEl = document.querySelector(target);
@@ -284,7 +304,8 @@ function dropzone(url, templateId, uploadSection, previewsContainer, target, tex
   const uploadButton = document.querySelector(`#${slugify(inputName.toLowerCase())} .actions .upload`);
   if (uploadButton) {
     uploadButton.onclick = function () {
-      myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+      debugger;
+      // myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
     };
   }
 

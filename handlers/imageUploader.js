@@ -26,3 +26,27 @@ exports.upload = async (req, options) => {
   */
   return images;
 };
+
+exports.thumbnail_upload = async (thumbnail, options) => {
+  const path = thumbnail.tempFilePath;
+  const thumbnail_cloud = await cloudinary.uploader.upload(path, options);
+  return thumbnail_cloud;
+}
+
+exports.images_upload = async (req, options) => {
+  const { files } = req;
+  let images = [];
+  if (!files.images) {
+    return;
+  }
+  for (const file in files) {
+    if (files.hasOwnProperty(file)) {
+      if (files[file].size) {
+        const path = files[file].tempFilePath;
+        const image = await cloudinary.uploader.upload(path, options);
+        images = [...images, image];
+      }
+    }
+  }
+  return images;
+}
