@@ -12816,179 +12816,202 @@ var isAdvancedUpload = function isAdvancedUpload() {
 if (isAdvancedUpload) {
   var playerThumbnailUploader = document.getElementById('thumbnail-upload-section');
   var playerThumbnailInput = document.querySelector('input[name="thumbnail"]');
+  var playerThumbnailPreview = document.getElementById('thumbnail-previews');
   var playerImagesUploader = document.getElementById('images-upload-section');
   var playerImagesInput = document.querySelector('input[name="images"]');
   ['drag', 'dragstart', 'dragend', 'dragover', 'dragleave', 'drop'].forEach(function (event) {
     // Thumbnail
-    playerThumbnailUploader.addEventListener(event, function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }); // Images
+    if (playerThumbnailUploader) {
+      playerThumbnailUploader.addEventListener(event, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    } // Images
 
-    playerImagesUploader.addEventListener(event, function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
+
+    if (playerImagesUploader) {
+      playerImagesUploader.addEventListener(event, function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    }
   });
   ['dragover', 'dragenter'].forEach(function (event) {
     // Thumbnail
-    playerThumbnailUploader.addEventListener(event, function () {
-      playerThumbnailUploader.classList.add('is-dragover');
-    }); // Images
+    if (playerThumbnailUploader) {
+      playerThumbnailUploader.addEventListener(event, function () {
+        playerThumbnailUploader.classList.add('is-dragover');
+      });
+    } // Images
 
-    playerImagesUploader.addEventListener(event, function () {
-      playerImagesUploader.classList.add('is-dragover');
-    });
+
+    if (playerImagesUploader) {
+      playerImagesUploader.addEventListener(event, function () {
+        playerImagesUploader.classList.add('is-dragover');
+      });
+    }
   });
   ['dragleave', 'dragend', 'drop'].forEach(function (event) {
     // Thumbnail
-    playerThumbnailUploader.addEventListener(event, function () {
-      playerThumbnailUploader.classList.remove('is-dragover');
-    }); // Images
+    if (playerThumbnailUploader) {
+      playerThumbnailUploader.addEventListener(event, function () {
+        playerThumbnailUploader.classList.remove('is-dragover');
+      });
+    } // Images
 
-    playerImagesUploader.addEventListener(event, function () {
-      playerImagesUploader.classList.remove('is-dragover');
-    });
+
+    if (playerImagesUploader) {
+      playerImagesUploader.addEventListener(event, function () {
+        playerImagesUploader.classList.remove('is-dragover');
+      });
+    }
   }); // Thumbnail Start
 
-  playerThumbnailInput.classList.add('hidden');
+  if (playerThumbnailUploader) {
+    playerThumbnailInput.classList.add('hidden');
 
-  var thumbnailInputChangeEvent = function thumbnailInputChangeEvent() {
-    return playerThumbnailInput.dispatchEvent(new Event('change'));
-  };
+    var thumbnailInputChangeEvent = function thumbnailInputChangeEvent() {
+      return playerThumbnailInput.dispatchEvent(new Event('change'));
+    };
 
-  playerThumbnailUploader.addEventListener('drop', function (e) {
-    if (e.dataTransfer.files.length > 1) {
-      alert('Please only upload one image');
-      return;
-    }
+    playerThumbnailUploader.addEventListener('drop', function (e) {
+      if (e.dataTransfer.files.length > 1 || playerThumbnailPreview.childNodes.length) {
+        alert('Please only upload one image');
+        return;
+      }
 
-    playerThumbnailInput.files = e.dataTransfer.files;
-    thumbnailInputChangeEvent();
-  });
-  playerThumbnailUploader.addEventListener('click', function () {
-    playerThumbnailInput.click();
-  });
-  playerThumbnailInput.addEventListener('change', function (e) {
-    if (this.files && this.files[0]) {
-      var reader = new FileReader();
-      var fileName = this.files[0].name;
+      playerThumbnailInput.files = e.dataTransfer.files;
+      thumbnailInputChangeEvent();
+    });
+    playerThumbnailUploader.addEventListener('click', function () {
+      playerThumbnailInput.click();
+    });
+    playerThumbnailInput.addEventListener('change', function (e) {
+      if (this.files && this.files[0]) {
+        if (playerThumbnailPreview.childNodes.length) {
+          playerThumbnailPreview.innerHTML = "";
+        }
 
-      reader.onload = function () {
-        var thumbTemp = document.getElementById('thumbnail-template').cloneNode(true);
-        thumbTemp.querySelector('img').setAttribute('src', reader.result);
-        thumbTemp.querySelector('p').innerText = fileName;
-        thumbTemp.classList.remove('hidden');
-        thumbTemp.querySelector('.thumbnail-close').addEventListener('click', function (e) {
-          // debugger;
-          e.preventDefault();
-          playerThumbnailInput.value = "";
-          document.getElementById('thumbnail-previews').innerHTML = "";
-        });
-        document.getElementById('thumbnail-previews').appendChild(thumbTemp);
-      };
+        var reader = new FileReader();
+        var fileName = this.files[0].name;
 
-      reader.readAsDataURL(this.files[0]);
-    }
-  }); // Thumbnail End
+        reader.onload = function () {
+          var thumbTemp = document.getElementById('thumbnail-template').cloneNode(true);
+          thumbTemp.querySelector('img').setAttribute('src', reader.result);
+          thumbTemp.querySelector('p').innerText = fileName;
+          thumbTemp.classList.remove('hidden');
+          thumbTemp.querySelector('.thumbnail-close').addEventListener('click', function (e) {
+            // debugger;
+            e.preventDefault();
+            playerThumbnailInput.value = "";
+            document.getElementById('thumbnail-previews').innerHTML = "";
+          });
+          document.getElementById('thumbnail-previews').appendChild(thumbTemp);
+        };
+
+        reader.readAsDataURL(this.files[0]);
+      }
+    });
+  } // Thumbnail End
   // Images Start
 
-  playerImagesInput.classList.add('hidden');
-  playerImagesInput.remove();
 
-  var playerInputChangeEvent = function playerInputChangeEvent() {
-    return playerImagesInput.dispatchEvent(new Event('change'));
-  };
+  if (playerImagesUploader) {
+    playerImagesInput.classList.add('hidden');
+    playerImagesInput.remove();
 
-  playerImagesUploader.addEventListener('drop', function (e) {
-    var _loop = function _loop(i) {
+    var playerInputChangeEvent = function playerInputChangeEvent() {
+      return playerImagesInput.dispatchEvent(new Event('change'));
+    };
+
+    playerImagesUploader.addEventListener('drop', function (e) {
+      if (e.dataTransfer.files.length > 1) {
+        alert('Please upload on image at a time');
+        return;
+      }
+
+      if (e.dataTransfer.files[0]) {
+        var newImgInput = document.createElement('input');
+        newImgInput.type = "file";
+        newImgInput.accept = "image/*";
+        newImgInput.name = "images";
+        newImgInput.files = e.dataTransfer.files;
+        newImgInput.classList.add('hidden');
+        var fileName = e.dataTransfer.files[0].name;
+        var reader = new FileReader();
+
+        reader.onload = function () {
+          var tempImg = document.getElementById('images-template').cloneNode(true);
+          tempImg.querySelector('img').setAttribute('src', reader.result);
+          tempImg.querySelector('p').innerText = fileName;
+          tempImg.classList.remove('hidden');
+          tempImg.appendChild(newImgInput);
+          tempImg.querySelector('.image-clear').addEventListener('click', function (e) {
+            e.preventDefault();
+            this.parentNode.parentNode.remove();
+          });
+          document.getElementById('images-previews').appendChild(tempImg);
+        };
+
+        reader.readAsDataURL(e.dataTransfer.files[0]);
+      }
+    });
+    playerImagesUploader.addEventListener('click', function (e) {
       var newImgInput = document.createElement('input');
       newImgInput.type = "file";
       newImgInput.accept = "image/*";
       newImgInput.name = "images";
       newImgInput.classList.add('hidden');
-      var fileName = e.dataTransfer.files[i].name;
-      var reader = new FileReader();
+      newImgInput.click();
 
-      reader.onload = function () {
-        var tempImg = document.getElementById('images-template').cloneNode(true);
-        tempImg.querySelector('img').setAttribute('src', reader.result);
-        tempImg.querySelector('p').innerText = fileName;
-        tempImg.classList.remove('hidden');
-        tempImg.appendChild(newImgInput);
-        tempImg.querySelector('.image-clear').addEventListener('click', function (e) {
-          e.preventDefault();
-          this.parentNode.parentNode.remove();
-        });
-        document.getElementById('images-previews').appendChild(tempImg);
-      };
+      newImgInput.onchange = function () {
+        var _this = this;
 
-      reader.readAsDataURL(e.dataTransfer.files[i]);
-    };
+        if (this.files && this.files[0]) {
+          var _loop = function _loop(i) {
+            var reader = new FileReader();
+            var fileName = _this.files[i].name;
 
-    for (var i = 0; i < e.dataTransfer.files.length; i++) {
-      _loop(i);
-    }
-  });
-  playerImagesUploader.addEventListener('click', function (e) {
-    var newImgInput = document.createElement('input');
-    newImgInput.type = "file";
-    newImgInput.accept = "image/*";
-    newImgInput.name = "images";
-    newImgInput.classList.add('hidden');
-    newImgInput.click();
+            reader.onload = function (e) {
+              var tempImg = document.getElementById('images-template').cloneNode(true);
+              tempImg.querySelector('img').setAttribute('src', reader.result);
+              tempImg.querySelector('p').innerText = fileName;
+              tempImg.classList.remove('hidden');
+              tempImg.appendChild(newImgInput);
+              tempImg.querySelector('.image-clear').addEventListener('click', function (e) {
+                e.preventDefault();
+                this.parentNode.parentNode.remove();
+              });
+              document.getElementById('images-previews').appendChild(tempImg);
+            };
 
-    newImgInput.onchange = function () {
-      var _this = this;
-
-      if (this.files && this.files[0]) {
-        var _loop2 = function _loop2(i) {
-          var reader = new FileReader();
-          var fileName = _this.files[i].name;
-
-          reader.onload = function (e) {
-            // debugger;
-            // newImgInput.files = e.dataTransfer.files[i];
-            var tempImg = document.getElementById('images-template').cloneNode(true);
-            tempImg.querySelector('img').setAttribute('src', reader.result);
-            tempImg.querySelector('p').innerText = fileName;
-            tempImg.classList.remove('hidden');
-            tempImg.appendChild(newImgInput);
-            tempImg.querySelector('.image-clear').addEventListener('click', function (e) {
-              e.preventDefault();
-              this.parentNode.parentNode.remove();
-            });
-            document.getElementById('images-previews').appendChild(tempImg);
+            reader.readAsDataURL(_this.files[i]);
           };
 
-          reader.readAsDataURL(_this.files[i]);
-        };
-
-        // const fileName = e.dataTransfer.files[i].name;
-        for (var i = 0; i < this.files.length; i++) {
-          _loop2(i);
+          for (var i = 0; i < this.files.length; i++) {
+            _loop(i);
+          }
         }
-      }
-    }; // playerImagesInput.click();
-
-  }); // playerImagesInput.addEventListener('change', function (e) {
-  //   if (this.files && this.files[0]) {
-  //     for(let i = 0; i < this.files.length; i++) {
-  //       const reader = new FileReader();
-  //       const fileName = this.files[i].name;
-  //       reader.onload = function() {
-  //         // console.log(reader.result)
-  //         let tempImg = document.getElementById('images-template').cloneNode(true);
-  //         tempImg.querySelector('img').setAttribute('src', reader.result);
-  //         tempImg.querySelector('p').innerText = fileName;
-  //         tempImg.classList.remove('hidden');
-  //         document.getElementById('images-previews').appendChild(tempImg);
-  //       }
-  //       reader.readAsDataURL(this.files[i]);
-  //     }
-  //   }
-  // });
-  // Images End
+      };
+    }); // playerImagesInput.addEventListener('change', function (e) {
+    //   if (this.files && this.files[0]) {
+    //     for(let i = 0; i < this.files.length; i++) {
+    //       const reader = new FileReader();
+    //       const fileName = this.files[i].name;
+    //       reader.onload = function() {
+    //         // console.log(reader.result)
+    //         let tempImg = document.getElementById('images-template').cloneNode(true);
+    //         tempImg.querySelector('img').setAttribute('src', reader.result);
+    //         tempImg.querySelector('p').innerText = fileName;
+    //         tempImg.classList.remove('hidden');
+    //         document.getElementById('images-previews').appendChild(tempImg);
+    //       }
+    //       reader.readAsDataURL(this.files[i]);
+    //     }
+    //   }
+    // });
+    // Images End
+  }
 } // dropzone(
 //   '/players/thumbnail',
 //   'thumbnail-template',

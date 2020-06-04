@@ -34,18 +34,19 @@ exports.thumbnail_upload = async (thumbnail, options) => {
 }
 
 exports.images_upload = async (req, options) => {
-  const { files } = req;
+  let { files } = req;
   let images = [];
   if (!files.images) {
     return;
   }
-  for (const file in files) {
-    if (files.hasOwnProperty(file)) {
-      if (files[file].size) {
-        const path = files[file].tempFilePath;
+  if (!Array.isArray(files.images)) {
+      files.images = Array(files.images);
+  }
+  for (let i = 0;  i < files.images.length; i++) {
+    if (files.images[i].size) {
+        const path = files.images[i].tempFilePath;
         const image = await cloudinary.uploader.upload(path, options);
         images = [...images, image];
-      }
     }
   }
   return images;

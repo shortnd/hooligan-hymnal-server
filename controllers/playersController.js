@@ -95,6 +95,7 @@ exports.create = (req, res) => {
 
 exports.store = async (req, res) => {
   let player = Player(req.body);
+  const playerSlug = player.name.toLowerCase().replaceAll(' ', '-');
   if (req.files) {
     if (req.files.thumbnail && req.files.thumbnail.size) {
       const thumbnail = await thumbnail_upload(req.files.thumbnail, {
@@ -105,27 +106,22 @@ exports.store = async (req, res) => {
           gravity: 'face',
         },
         folder: `players_thumbnails`,
-        public_id: `${player._id}_thumbnail`,
+        public_id: `${playerSlug}_thumbnail`,
         format: 'jpg',
       });
       player.thumbnail = thumbnail.url;
     }
     if (req.files.images) {
       const images = await images_upload(req, {
-        folder: `players/${player._id}`,
+        folder: `players/${playerSlug}`,
         format: 'jpg',
       });
-      // for (const image in images) {
-      //   console.log(image.url);
-      // }
-      return res.json(images);
+      images.map((img) => player.images = [...player.images, img.url])
     }
   }
-  // return res.json({ body: req.body, files: req.files });
-  // const player = new Player(req.body);
-  // await player.save();
-  // req.flash('success', `${player.name} was successfully created!`);
-  // res.redirect('/players');
+  await player.save();
+  req.flash('success', `${player.name} was successfully created!`);
+  res.redirect('/players');
 };
 
 exports.show = async (req, res) => {
@@ -145,18 +141,19 @@ exports.edit = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  if (!req.body.images) {
-    req.body.images = [];
-  }
-  if (!req.body.thumbnail) {
-    req.body.thumbnail = '';
-  }
-  const player = await Player.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  req.flash('success', `${player.name} was updated`);
-  res.redirect(`/players/${player._id}`);
+    return res.json({ body: req.body, files: req.files });
+//   if (!req.body.images) {
+//     req.body.images = [];
+//   }
+//   if (!req.body.thumbnail) {
+//     req.body.thumbnail = '';
+//   }
+//   const player = await Player.findByIdAndUpdate(req.params.id, req.body, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   req.flash('success', `${player.name} was updated`);
+//   res.redirect(`/players/${player._id}`);
 };
 
 exports.deleteConfirm = async (req, res) => {
